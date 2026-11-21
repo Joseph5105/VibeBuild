@@ -43,11 +43,10 @@ cp .env.example .env.local
 ```
 | Variable | Required | Notes |
 |---|---|---|
-| `GEMINI_API_KEY` | only for real AI | Free key: https://aistudio.google.com/apikey. **Never commit it**; `.env.local` is gitignored |
-| `GEMINI_MODEL` | no | defaults to `gemini-2.5-flash` |
-| `MOCK_AI` | no | `1` returns a canned recipe, so no key or quota is needed |
+| `GEMINI_API_KEY` | **yes** | Free key: https://aistudio.google.com/apikey. **Never commit it**; `.env.local` is gitignored |
+| `GEMINI_MODEL` | no | defaults to `gemini-3.6-flash` (falls back to `gemini-3.5-flash`, then `-lite`) |
 
-If no key is set, the API automatically runs in **mock mode**. Frontend work never needs a key.
+Every request goes to the Gemini API. Without `GEMINI_API_KEY`, `/api/recipe` returns the error "Server is not configured for AI yet."
 
 ### 4. Run
 ```bash
@@ -70,13 +69,13 @@ Don't, unless you need to. If you do: `npm install <pkg>`, commit **both** `pack
 - **`EACCES` / permission errors from npm:** run `sudo chown -R $(id -u):$(id -g) ~/.npm`, or use a temp cache: `npm_config_cache=/tmp/npm-cache npm install`
 - **Port 3000 in use:** `npm run dev -- -p 3001`
 - **Phone can't connect:** make sure both devices are on the same Wi-Fi, use `dev:phone`, and check the macOS firewall
-- **Always seeing mock results:** check `GEMINI_API_KEY` in `.env.local`, set `MOCK_AI=0`, and restart `npm run dev`
+- **"Server is not configured for AI yet":** `GEMINI_API_KEY` is missing. Add it to `.env.local` (local) or Vercel env vars (prod), then restart or redeploy
 
 ---
 
 ## 🚀 Deploy (Vercel)
 1. Push to GitHub, then import the repo at https://vercel.com/new (Next.js is auto-detected, no config needed)
-2. Settings → Environment Variables → add `GEMINI_API_KEY` (Production + Preview)
+2. Settings → Environment Variables → add `GEMINI_API_KEY` and `GEMINI_MODEL=gemini-3.6-flash` (Production + Preview). **Required**, there is no mock fallback
 3. Deploy. Every push to `main` redeploys; PRs get preview URLs.
 
 ## How it works
@@ -96,6 +95,6 @@ src/
   components/CameraCapture.tsx (A)
   components/RecipeCard.tsx  (C)
   lib/image.ts               client image resize (A)
-  lib/gemini.ts, prompt.ts, mock.ts, api.ts (B)
+  lib/gemini.ts, prompt.ts, ai/validate.ts, api.ts (B)
 public/                      manifest + icons (C)
 ```

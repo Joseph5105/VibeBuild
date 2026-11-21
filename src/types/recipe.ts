@@ -32,5 +32,5 @@ export interface RecipeRequest {
 
 /** POST /api/recipe response body */
 export type RecipeResponse =
-  | { ok: true; recipe: Recipe; mock?: boolean }
+  | { ok: true; recipe: Recipe }
   | { ok: false; error: string };

@@ -16,7 +16,6 @@ export default function Home() {
   const [photo, setPhoto] = useState<string | null>(null);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isMock, setIsMock] = useState(false);
   const [resultId, setResultId] = useState(0);
   // Ignore responses from a request that was superseded by a reset or a newer photo
   const requestSeq = useRef(0);
@@ -33,7 +32,6 @@ export default function Home() {
 
     if (res.ok) {
       setRecipe(res.recipe);
-      setIsMock(!!res.mock);
       setResultId((n) => n + 1); // fresh checkbox state per recipe
       setStatus("done");
     } else {
@@ -48,7 +46,6 @@ export default function Home() {
     setPhoto(null);
     setRecipe(null);
     setError(null);
-    setIsMock(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -102,9 +99,6 @@ export default function Home() {
 
       {status === "done" && recipe && (
         <>
-          {isMock && (
-            <p className="banner">Mock mode: set GEMINI_API_KEY for real results.</p>
-          )}
           <RecipeCard key={resultId} recipe={recipe} />
           <button type="button" className="btn btn-primary" onClick={reset}>
             📷 Snap another

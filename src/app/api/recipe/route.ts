@@ -4,7 +4,6 @@
 import { NextResponse } from "next/server";
 import type { RecipeRequest, RecipeResponse } from "@/types/recipe";
 import { generateRecipeFromImage, GeminiError, type GeminiErrorKind } from "@/lib/gemini";
-import { MOCK_RECIPE } from "@/lib/mock";
 
 export const runtime = "nodejs";
 export const maxDuration = 60; // seconds (Vercel Hobby max); gemini.ts budgets 50s across fallbacks
@@ -28,11 +27,6 @@ export async function POST(req: Request) {
   }
   if (body.image.length > MAX_IMAGE_CHARS) {
     return json({ ok: false, error: "Image is too large. Try a smaller photo." }, 413);
-  }
-
-  // Mock mode: no key yet, or explicitly enabled
-  if (process.env.MOCK_AI === "1" || !process.env.GEMINI_API_KEY) {
-    return json({ ok: true, recipe: MOCK_RECIPE, mock: true });
   }
 
   try {
