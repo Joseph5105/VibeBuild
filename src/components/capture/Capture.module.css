@@ -1,0 +1,59 @@
+/* OWNER: Member A. Styles for CameraCapture; builds on global .btn / .btn-primary (Member C). */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+.row > * {
+  flex: 1;
+}
+
+.btn {
+  width: 100%;
+  min-height: 52px; /* ≥44px touch target */
+  border: 0;
+  padding: 0 16px;
+  font: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.btn:focus-visible {
+  outline: 3px solid var(--fg);
+  outline-offset: 2px;
+}
+
+.secondary {
+  background: var(--card);
+  color: var(--fg);
+  border: 2px solid var(--border);
+}
+
+.preview {
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  border-radius: 16px;
+  background: var(--border);
+}
+
+.status {
+  margin: 0;
+  text-align: center;
+}
+
+.error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--error);
+  background: color-mix(in srgb, var(--error) 10%, transparent);
+}
