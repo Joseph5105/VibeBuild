@@ -1,0 +1,12 @@
+{
+  "name": "SnapRecipe",
+  "short_name": "SnapRecipe",
+  "description": "Snap a photo of food, get an AI-estimated recipe.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffaf5",
+  "theme_color": "#ff6b35",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
